@@ -18,12 +18,15 @@ def calculate_demographic_data(print_data=True):
     # What percentage of people without advanced education make more than 50K?
 
     # with and without `Bachelors`, `Masters`, or `Doctorate`
-    higher_education_mask = df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])
+    higher_education_levels = ['Bachelors', 'Masters', 'Doctorate']
+
+    higher_education_mask = df['education'].isin(higher_education_levels)
     high_income_mask = df['salary'] == '>50K'
     higher_education_high_income_count = len(df[higher_education_mask & high_income_mask])
-    higher_education = round(((higher_education_high_income_count / total_rows) * 100), 1)
-    
-    lower_education_mask = ~df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])
+    higher_education_high_income_percent = (higher_education_high_income_count / total_rows) * 100
+    higher_education = round(higher_education_high_income_percent, 1)
+
+    lower_education_mask = ~df['education'].isin(higher_education_levels)
     lower_education_high_income_count = len(df[lower_education_mask & high_income_mask])
     lower_education_high_income_percent = (lower_education_high_income_count / total_rows) * 100
     lower_education = round(lower_education_high_income_percent, 1)
